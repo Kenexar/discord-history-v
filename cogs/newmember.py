@@ -64,7 +64,7 @@ class NewMember(commands.Cog):
         img.paste(img_cutted, (((W - w) // -2), ((H - h) // -3) - 53), img_cutted)
 
         img.save(path)
-        ch = self.bot.get_channel(936548705786548244)
+        ch = self.bot.get_channel(906660793100156979)
         await ch.send(file=nextcord.File(path))
         os.remove(path)
 
