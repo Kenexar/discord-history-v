@@ -12,7 +12,7 @@ from cogs.etc.config import (
     TOKEN,
     PREFIX,
     ESCAPE,
-
+    current_timestamp
 )
 
 logging.config.fileConfig('logging.conf')
@@ -30,5 +30,5 @@ def define_global_vars(bot):
     bot.prefix = PREFIX
     bot.escape = ESCAPE
     bot.logger = logging.getLogger('MrPython')
-
+    bot.current_timestamp = current_timestamp
     return bot
