@@ -46,6 +46,8 @@ class NewMember(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member: nextcord.Member):
+        if not member.guild.id == 774944591941861407:
+            return
         img = Image.open('img/welcome-card.png')
 
         member_count, path, res = await self.__get_member_avatar_url(member)
