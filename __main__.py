@@ -11,7 +11,7 @@ from cogs.etc.config import PREFIX, PROJECT_NAME
 from define_global_vars import define_global_vars
 
 intents = nextcord.Intents.all()
-bot = commands.bot(command_prefix=PREFIX,
+bot = commands.Bot(command_prefix=PREFIX,
                    intents=intents,
                    help_command=None,
                    description=f"Created by exersalza. Project: {PROJECT_NAME}", )

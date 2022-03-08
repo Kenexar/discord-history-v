@@ -61,6 +61,7 @@ class NewMember(commands.Cog):
 
         img = await self.create_text(img, f"{member.name}#{member.discriminator} Joined the Server", (255, 0, 0))
         img = await self.create_text(img, f'#{member_count}', (255, 0, 0), 290)
+
         img.paste(img_cutted, (((W - w) // -2), ((H - h) // -3) - 53), img_cutted)
 
         img.save(path)
@@ -74,10 +75,14 @@ class NewMember(commands.Cog):
         del res
 
     async def __get_member_avatar_url(self, member):
-        url = member.avatar.url
+        url = 'https://cdn.discordapp.com/avatars/796358028664242208/3bf6b1c50ae77d9c95a50efe55580405.png?size=1024'
+        if member.avatar is not None:
+            url = member.avatar.url
+
         member_count = member.guild.member_count
         res = requests.get(url.replace('.gif', '.png'), stream=True)
         path = f'img/{member.name}#{member.discriminator}.png'
+
         return member_count, path, res
 
     async def __make_avatar_circle(self, img_sec):
