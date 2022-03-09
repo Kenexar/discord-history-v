@@ -1,4 +1,5 @@
 import os
+import random
 
 import nextcord
 import requests
@@ -83,7 +84,7 @@ class NewMember(commands.Cog):
 
         member_count = member.guild.member_count
         res = requests.get(url.replace('.gif', '.png'), stream=True)
-        path = f'img/{member.name}#{member.discriminator}.png'
+        path = f'img/{random.randint(0, 999999)}#{member.discriminator}'
 
         return member_count, path, res
 
