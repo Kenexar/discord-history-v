@@ -47,6 +47,10 @@ class NewMember(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member: nextcord.Member):
+        # @commands.Command
+        # async def get_banner(self, ctx):
+        #     member = ctx.author
+
         if not member.guild.id == 774944591941861407:
             return
         img = Image.open('img/welcome-card.png')
@@ -84,7 +88,7 @@ class NewMember(commands.Cog):
 
         member_count = member.guild.member_count
         res = requests.get(url.replace('.gif', '.png'), stream=True)
-        path = f'img/{random.randint(0, 999999)}#{member.discriminator}'
+        path = f'img/{random.randint(0, 999999)}#{member.discriminator}.png'
 
         return member_count, path, res
 

@@ -17,7 +17,7 @@ bot = commands.Bot(command_prefix=PREFIX,
                    description=f"Created by exersalza. Project: {PROJECT_NAME}", )
 
 count = 0
-names = ['__init__.py', 'playground.py']
+names = ['__init__.py', 'playground.py', 'ticket.py']
 
 for f in os.listdir('cogs'):
     if f.endswith(".py") and f not in names:
