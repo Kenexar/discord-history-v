@@ -53,7 +53,7 @@ class NewMember(commands.Cog):
 
         if not member.guild.id == 774944591941861407:
             return
-        img = Image.open('img/welcome-card.png')
+        img = Image.open('imgs/welcome-card.png')
 
         member_count, path, res = await self.__get_member_avatar_url(member)
 
@@ -88,7 +88,7 @@ class NewMember(commands.Cog):
 
         member_count = member.guild.member_count
         res = requests.get(url.replace('.gif', '.png'), stream=True)
-        path = f'img/{random.randint(0, 999999)}#{member.discriminator}.png'
+        path = f'imgs/{random.randint(0, 999999)}#{member.discriminator}.png'
 
         return member_count, path, res
 
