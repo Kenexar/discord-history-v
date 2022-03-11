@@ -413,7 +413,7 @@ Die Regelung dabei ist:
 Channel können nur bis zu 100 Zeichen haben, dazu zählen die '-' bei leerzeichen, die - zeichen werden automatisch eingefügt, also keine sorge.
 Sollte ein Wort in der Blacklist sein, wird dir das recht entnommen den Channel namen zu ändern!
 **Du hast nur einen Versuch, den namen zu ändern! Bitte schreibe den neuen Namen nach dieser Nachricht.**
-            """)
+            """, delete_after=3*60)
 
             try:
                 msg = await self.bot.wait_for('message', check=check, timeout=5 * 60)
