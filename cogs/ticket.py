@@ -2,12 +2,10 @@ import asyncio
 import json
 import os
 import random
-import nextcord
 from datetime import datetime
 from typing import Tuple, Union
 
-from core import filler
-from cogs.etc.config import dbBase
+import nextcord
 from mysql.connector import OperationalError
 from nextcord import ButtonStyle
 from nextcord import TextChannel, CategoryChannel, ChannelType
@@ -15,6 +13,9 @@ from nextcord.errors import NotFound
 from nextcord.ext import commands
 from nextcord.ext.commands import has_permissions, EmojiNotFound
 from nextcord.ui import View, Button
+
+from cogs.etc.config import dbBase
+from core import filler
 
 
 # Todo:
@@ -25,6 +26,7 @@ async def send_interaction_msg(message: str, interaction: nextcord.Interaction, 
         await interaction.followup.send(message, ephemeral=tmp)
     except Exception as e:
         print(e)
+
 
 async def new_cur(db):
     try:
@@ -288,6 +290,9 @@ class Ticket(commands.Cog):
         return embed, view
 
 
+current_tickets = {}
+
+
 class TicketBackend(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -325,6 +330,16 @@ class TicketBackend(commands.Cog):
         i_id: str = interaction.data.get('custom_id', 'custom_id')
 
         if i_id == 'ticket-creation':
+            user = interaction.user
+            if user.id in current_tickets:
+                if current_tickets[user.id] >= 2:
+                    return await send_interaction_msg(
+                        'Du hast bereits zwei Tickets offen, bitte schliesse vorher eines von denen, bevor du ein neues öffnest!',
+                        interaction)
+                current_tickets[user.id] += 1
+            else:
+                current_tickets[user.id] = 1
+
             cur = await new_cur(self.bot.dbBase)
 
             cur.execute("SELECT category_id FROM dcbots.tickets_serverchannel WHERE server_id=%s AND category_bind=%s",
@@ -480,7 +495,16 @@ class TicketSecondBaseView(View):
 class TicketDeleteView(View):
     @nextcord.ui.button(label='Close it', style=ButtonStyle.danger)
     async def delete_it(self, button: Button, interaction: nextcord.Interaction):
+        ticket_owner = 0
+
+        async for message in interaction.channel.history(oldest_first=True):
+            ticket_owner = message.raw_mentions
+            break
+
         ch: nextcord.TextChannel = interaction.channel
+        member = interaction.guild.get_member(ticket_owner[0])
+
+        current_tickets[member.id] -= 1
 
         m = await ch.send('Ticket will be closed...')
         await m.add_reaction('<:monaloadingdark:915863386196181014>')

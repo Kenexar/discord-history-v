@@ -1,12 +1,11 @@
 import os
 import random
+import shutil
 
 import nextcord
 import requests
-import shutil
-
-from nextcord.ext import commands
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from nextcord.ext import commands
 
 
 class NewMember(commands.Cog):
