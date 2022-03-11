@@ -20,6 +20,11 @@ from nextcord.ui import View, Button
 # Todo:
 #  Silent Ping
 
+async def send_interaction_msg(message: str, interaction: nextcord.Interaction, tmp=True):
+    try:
+        await interaction.followup.send(message, ephemeral=tmp)
+    except Exception as e:
+        print(e)
 
 async def new_cur(db):
     try:
@@ -335,6 +340,8 @@ class TicketBackend(commands.Cog):
                 ch = await guild.create_text_channel(name=f"Ticket-{random.randint(0, 65535)}")
 
             await ch.set_permissions(interaction.user, view_channel=True, send_messages=True, read_messages=True)
+
+            await send_interaction_msg(f'{ch.mention} Dein ticket.', interaction)
 
             cur.execute(
                 "SELECT category_bind, button_emoji, button_label FROM dcbots.ticket_button_options WHERE server_id=%s",
